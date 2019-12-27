@@ -67,10 +67,15 @@
     </div>
 </div>
 <script>
-	$("#add-uplink").submit(
-	//$("#add").click(
-		function(e) {
-		alert($("#uplinks option:selected").val());
+	$("#add-uplink").submit(function() {
+		var nextpage = "<?= Cake\Routing\Router::url([
+			'action'=>'add',
+			'?' => ['name'=>'abcxyz']
+				])?>";
+		window.location = (nextpage.replace('abcxyz', 
+			$("#uplinks option:selected").val()
+			));
+		
 		return false;
 	});
 </script>

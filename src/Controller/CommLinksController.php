@@ -21,18 +21,7 @@ class CommLinksController extends AppController
     public function index()
     {
         $commLinks = $this->paginate($this->CommLinks);
-    	$xml = simplexml_load_file(ROOT . DS . 'TandSData.xml');
-    	/*$this->loadModel('CommLinks');
-        $table = [];
-        $lib = new Common();
-    	foreach ($xml->children() as $tr) {
-        	$line_raw = $lib->parseColumn($tr, 1);
-        	$line = trim($line_raw['text']);
-        	if (substr($line, 0, 2) === 'PW') {
-        		$table[$line] = true;
-        	}
-        } 
-        */
+        //debug($this->request);
         $uplinks = $this->getLinkNames("uplinks");
         $this->set(compact('commLinks', 'uplinks'));
     }
@@ -44,7 +33,7 @@ class CommLinksController extends AppController
     		$col4 = (Xml::toArray($tr->td[3]))['td'];
     		if (is_string($col4)) {
     			$str = trim($col4);
-    			$map[$str] = $str;
+    			$map[$str] = urlencode($str);
     		}
     	}
     	return $map;

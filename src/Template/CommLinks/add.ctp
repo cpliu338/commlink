@@ -15,7 +15,7 @@
     <fieldset>
         <legend><?= __('Add Comm Link') ?></legend>
         <?php
-            echo $this->Form->control('name');
+            echo $this->Form->control('name', ['readonly'=>true]);
             echo $this->Form->control('loc_code');
             echo $this->Form->control('properties');
             echo $this->Form->control('remark');
