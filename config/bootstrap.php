@@ -77,6 +77,14 @@ try {
 }
 
 /*
+ * Load an environment local configuration file to provide overrides to your configuration.
+ * Notice: For security reasons app_local.php will not be included in your git repo.
+ */
+if (file_exists(CONFIG . 'app_local.php')) {
+    Configure::load('app_local', 'default');
+}
+
+/*
  * Load an environment local configuration file.
  * You can use a file like app_local.php to provide local overrides to your
  * shared configuration.

@@ -34,8 +34,9 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        /* Try Friends of Cake instead
         $this->addPlugin('SearchBox');
-
+        */
         // Call parent to load bootstrap from files.
         parent::bootstrap();
 

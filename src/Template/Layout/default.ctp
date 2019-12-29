@@ -29,7 +29,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('style.css') ?>
     
-<script src="http://wiki.sis2.wsd.gov/cdn/jquery-2.1.4.min.js" type="text/javascript"></script>
+<script src="<?= Cake\Core\Configure::read('CDN.jquery_js') ?>" type="text/javascript"></script>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>

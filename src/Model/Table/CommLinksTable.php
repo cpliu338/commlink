@@ -5,6 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Event\Event;
+use ArrayObject;
 
 /**
  * CommLinks Model
@@ -20,6 +22,30 @@ use Cake\Validation\Validator;
  */
 class CommLinksTable extends Table
 {
+	
+	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+	{
+		$properties = [];
+		foreach ($data as $key => $value) {
+			if (is_string($value)) {
+				$data[$key] = trim($value);
+			}
+		}
+    	foreach ($data as $attr=>$val) {
+			$at = substr($attr, 5);
+    		if (substr($attr, 0, 5) == 'attr_') {
+    			$properties[$at] = $data[$attr];
+    		}
+    	}
+    	$data['properties'] = $properties;
+    }
+    
+    public function beforeSave(Event $event) {
+    	$entity = $event->getData('entity');
+    	if (empty($entity->id) && !empty($entity->name))
+			$entity->id = $entity->name;
+	}	
+	
     /**
      * Initialize method
      *
@@ -59,8 +85,8 @@ class CommLinksTable extends Table
 
         $validator
             ->scalar('remark')
-            ->requirePresence('remark', 'create')
-            ->notEmptyString('remark');
+            ->requirePresence('remark', 'create');
+            //->notEmptyString('remark');
 
         return $validator;
     }

@@ -28,4 +28,15 @@ class CommLink extends Entity
         'remark' => true,
         'name' => true // this is not an actual column
     ];
+    
+    /**
+    * Set attribute fields for html form control using JSON column properties
+    * the attribute fields start with attr_
+    */
+    public function populateAttr() {
+    	foreach ($this->properties as $attr=>$val) {
+			$this->set('attr_'.$attr, ($this->properties)[$attr]);
+    	}    	
+    }
+    
 }

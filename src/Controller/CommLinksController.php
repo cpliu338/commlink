@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use App\Lib\Common;
+use Cake\Core\Configure;
 use Cake\Utility\Xml;
 /**
  * CommLinks Controller
@@ -64,18 +65,18 @@ class CommLinksController extends AppController
     {
         $commLink = $this->CommLinks->newEntity();
         $commLink->name = $this->request->query('name');
+        $attributes = Configure::read('JsonCommLink.broadband');
         if ($this->request->is('post')) {
             $commLink = $this->CommLinks->patchEntity($commLink, $this->request->getData());
-            $commLink->id = $commLink->name;
-            $commLink->properties = ['location'=>$commLink->properties];
+            //$commLink->properties = //['location'=>$commLink->properties];
+            //$commLink->marshalAttr($this->request->getData());
             if ($this->CommLinks->save($commLink)) {
                 $this->Flash->success(__('The comm link has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The comm link could not be saved. Please, try again.'));
         }
-        $this->set(compact('commLink'));
+        $this->set(compact('commLink', 'attributes'));
     }
 
     /**
@@ -90,16 +91,20 @@ class CommLinksController extends AppController
         $commLink = $this->CommLinks->get($id, [
             'contain' => []
         ]);
+        $commLink->name = $id;
+        $commLink->populateAttr();
+        $attributes = Configure::read('JsonCommLink.broadband');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $commLink = $this->CommLinks->patchEntity($commLink, $this->request->getData());
+            //$commLink->marshalAttr($this->request->getData());
+            //$commLink->dirty('properties', true);
             if ($this->CommLinks->save($commLink)) {
                 $this->Flash->success(__('The comm link has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The comm link could not be saved. Please, try again.'));
         }
-        $this->set(compact('commLink'));
+        $this->set(compact('commLink', 'attributes'));
     }
 
     /**

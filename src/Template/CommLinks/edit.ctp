@@ -21,8 +21,11 @@
     <fieldset>
         <legend><?= __('Edit Comm Link') ?></legend>
         <?php
+            echo $this->Form->control('name', ['readonly'=>true]);
             echo $this->Form->control('loc_code');
-            echo $this->Form->control('properties');
+            foreach ($attributes as $attr) {
+            	echo $this->Form->control($attr);
+            }
             echo $this->Form->control('remark');
         ?>
     </fieldset>
