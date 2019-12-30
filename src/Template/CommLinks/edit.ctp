@@ -22,6 +22,10 @@
         <legend><?= __('Edit Comm Link') ?></legend>
         <?php
             echo $this->Form->control('name', ['readonly'=>true]);
+            echo $this->Form->control('type', [
+            		'type'=>'select',
+            		'multiple'=>false,
+            		'options'=>$types]);
             echo $this->Form->control('loc_code');
             foreach ($attributes as $attr) {
             	echo $this->Form->control($attr);
@@ -32,3 +36,36 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
+<script>
+	$("#loc-code").autocomplete({
+		source: function (request, response) {
+			$.ajax({
+				url: "http://10.29.3.92:8080/sis3/webresources/locations?name_filter="+
+					request.term,
+				type: "GET",
+				headers: {
+					"Accept": "application/json"
+				}
+			}).done(function (data) {
+				response($.map(eval(data.suggestions), function (item) {
+					return {
+						label: item.name,
+						value: item.code,
+						region: item.region
+					};
+				}));
+			});
+		},
+		/*[
+			{label: 'Tuen Mun WTW', value: 'TW003'},
+			{label: 'Tuen Mun FWPS', value: 'PS103'}
+			],*/
+		select: function(event, ui) {
+			$("#loc-code").val(ui.item.value);
+			$("#attr-location").val(ui.item.label);
+			$("#remark").val($("#remark").val() + ui.item.region);
+			return false;
+		},
+		minLength: 1
+	});
+</script>

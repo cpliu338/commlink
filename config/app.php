@@ -391,4 +391,16 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+    'JsonCommLink' => [
+    	'broadband' =>  ['attr_location','attr_service'],
+    	'leased_line' => [],
+    	'3G' => [],
+	]
+    
 ];
+/* In app_local
+    'CDN' => [
+    	'jquery_js' =>'http://wiki.sis2.wsd.gov/cdn/jquery-2.1.4.min.js',
+	],    
+
+*/

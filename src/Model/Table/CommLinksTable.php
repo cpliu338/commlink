@@ -80,12 +80,17 @@ class CommLinksTable extends Table
             ->allowEmptyString('loc_code');
 
         $validator
+            ->requirePresence('type', 'create')
+            ->notEmptyString('type')
+            ->maxLength('type', 32);
+
+        $validator
             ->requirePresence('properties', 'create')
             ->notEmptyString('properties');
 
         $validator
-            ->scalar('remark')
-            ->requirePresence('remark', 'create');
+            ->scalar('remark');
+            //->requirePresence('remark', 'create');
             //->notEmptyString('remark');
 
         return $validator;

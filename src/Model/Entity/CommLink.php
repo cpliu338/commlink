@@ -24,6 +24,7 @@ class CommLink extends Entity
      */
     protected $_accessible = [
         'loc_code' => true,
+        'type' => true,
         'properties' => true,
         'remark' => true,
         'name' => true // this is not an actual column

@@ -16,6 +16,10 @@
         <legend><?= __('Add Comm Link') ?></legend>
         <?php
             echo $this->Form->control('name', ['readonly'=>true]);
+            echo $this->Form->control('type', [
+            		'type'=>'select',
+            		'multiple'=>false,
+            		'options'=>$types]);
             echo $this->Form->control('loc_code');
             foreach ($attributes as $attr) {
             	echo $this->Form->control($attr);

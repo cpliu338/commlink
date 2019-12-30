@@ -31,6 +31,7 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('type') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('loc_code') ?></th>
                 <th scope="col"><?= __('properties') ?></th>
                 <th scope="col"><?= __('remark') ?></th>
@@ -41,6 +42,7 @@
             <?php foreach ($commLinks as $commLink): ?>
             <tr>
                 <td><?= h($commLink->id) ?></td>
+                <td><?= h($commLink->type) ?></td>
                 <td><?= h($commLink->loc_code) ?></td>
                 <td><?= is_array($commLink->properties) ?
                 	Cake\Utility\Text::truncate(json_encode($commLink->properties, 20)) : $commLink->properties
@@ -68,14 +70,14 @@
 </div>
 <script>
 	$("#add-uplink").submit(function() {
-		var nextpage = "<?= Cake\Routing\Router::url([
-			'action'=>'add',
-			'?' => ['name'=>'abcxyz']
-				])?>";
-		window.location = (nextpage.replace('abcxyz', 
-			$("#uplinks option:selected").val()
-			));
-		
+		var addpage = "<?= Cake\Routing\Router::url([
+			'action'=>'add'])?>";
+		var map = {'type':'broadband'};
+		map.name = $("#uplinks option:selected").val();
+		/*
+		alert($.param(map));
+		*/
+		window.location = addpage + '?' + $.param(map);
 		return false;
 	});
 </script>

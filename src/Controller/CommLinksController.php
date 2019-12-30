@@ -58,14 +58,21 @@ class CommLinksController extends AppController
 
     /**
      * Add method
-     *
+     * Auto increment primary key is not used, the name param becomes the id
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
+    	$name = $this->request->query('name');
+    	if ($this->CommLinks->exists(['id'=>$name]))
+    		return $this->redirect(['action'=>'edit', $name]);
         $commLink = $this->CommLinks->newEntity();
-        $commLink->name = $this->request->query('name');
-        $attributes = Configure::read('JsonCommLink.broadband');
+        $commLink->name = $name;
+        $commLink->type = $this->request->query('type');
+        $commLink->remark = 'N/A';
+        $attributes = Configure::read('JsonCommLink.'.$commLink->type, []);
+        foreach (Configure::read('JsonCommLink', []) as $k => $v)
+        	$types[$k] = $k;
         if ($this->request->is('post')) {
             $commLink = $this->CommLinks->patchEntity($commLink, $this->request->getData());
             //$commLink->properties = //['location'=>$commLink->properties];
@@ -76,7 +83,7 @@ class CommLinksController extends AppController
             }
             $this->Flash->error(__('The comm link could not be saved. Please, try again.'));
         }
-        $this->set(compact('commLink', 'attributes'));
+        $this->set(compact('commLink', 'attributes', 'types'));
     }
 
     /**
@@ -93,7 +100,9 @@ class CommLinksController extends AppController
         ]);
         $commLink->name = $id;
         $commLink->populateAttr();
-        $attributes = Configure::read('JsonCommLink.broadband');
+        $attributes = Configure::read('JsonCommLink.'.$commLink->type, []);
+        foreach (Configure::read('JsonCommLink', []) as $k => $v)
+        	$types[$k] = $k;
         if ($this->request->is(['patch', 'post', 'put'])) {
             $commLink = $this->CommLinks->patchEntity($commLink, $this->request->getData());
             //$commLink->marshalAttr($this->request->getData());
@@ -104,7 +113,7 @@ class CommLinksController extends AppController
             }
             $this->Flash->error(__('The comm link could not be saved. Please, try again.'));
         }
-        $this->set(compact('commLink', 'attributes'));
+        $this->set(compact('commLink', 'attributes', 'types'));
     }
 
     /**
