@@ -40,7 +40,7 @@
 	$("#loc-code").autocomplete({
 		source: function (request, response) {
 			$.ajax({
-				url: "http://10.29.3.92:8080/sis3/webresources/locations?name_filter="+
+				url: "<?= \Cake\Core\Configure::read('WebService.locations') ?>"+"?limit=20&name_filter="+
 					request.term,
 				type: "GET",
 				headers: {

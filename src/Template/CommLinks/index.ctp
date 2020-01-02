@@ -13,17 +13,15 @@
 <div class="commLinks index large-9 medium-8 columns content">
     <h3><?= __('Comm Links') ?></h3>
     <form id="add-uplink" method="get" accept-charset="utf-8" action="/comm-links/add">
-    <div class="input select">
-    <fieldset>
+    <fieldset style="display:inline; margin:0; padding:0">
     	<label for="uplinks">Uplink</label>
     	<select id="uplinks">
 <?php foreach($uplinks as $key=>$value): ?>
 	<option value="<?= $value?>"/><?=$key?></option>
 <?php endforeach; ?>
 		</select>
+		<button style="display:inline; padding:0" id="add">Add</button>
 	</fieldset>
-		<button id="add">Add</button>
-	</div>
 	</form>
 <!-- $this->Html->link($key, ['action'=>'add', '?'=>['name'=>$key]]) -->
     
@@ -69,6 +67,9 @@
     </div>
 </div>
 <script>
+	$(function() {
+		$("#add").button({icons: {primary: "ui-icon-plus"}});
+	});
 	$("#add-uplink").submit(function() {
 		var addpage = "<?= Cake\Routing\Router::url([
 			'action'=>'add'])?>";
