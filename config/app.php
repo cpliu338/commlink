@@ -395,17 +395,17 @@ return [
     	'broadband' =>  ['attr_location','attr_service'],
     	'leased_line' => [],
     	'3G' => [],
-	]
+	],
     
-];
+    'WebService' => [
+    	'locations' =>"http://localhost:8765/commLinks/mimicLocationService",
+	],
 /* In app_local
     'CDN' => [
     	'jquery_js' =>'http://wiki.sis2.wsd.gov/cdn/jquery-2.1.4.min.js',
     	'jquery_ui_js' =>'http://wiki.sis2.wsd.gov/cdn/jquery-ui.min.js',
     	'jquery_ui_css' =>'http://wiki.sis2.wsd.gov/cdn/jquery-ui-themes/smoothness/jquery-ui.css',
 	],    
-    'WebService' => [
-    	'locations' =>"http://10.29.3.240:8080/sis3/webresources/locations",
-	],
 
 */
+];

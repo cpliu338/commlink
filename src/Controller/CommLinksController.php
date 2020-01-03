@@ -135,4 +135,13 @@ class CommLinksController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+    
+    /**
+    * Mock up location service, returning static suggestions for Tuen
+    */
+    public function mimicLocationService() {
+    	return $this->response->withFile(ROOT . DS . 
+    		'locations.json');
+    }
+    
 }
