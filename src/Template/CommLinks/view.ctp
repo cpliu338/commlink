@@ -17,7 +17,7 @@
     <h3><?= h($commLink->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Id') ?></th>
+            <th scope="row"><?= __('Name') ?></th>
             <td><?= h($commLink->id) ?></td>
         </tr>
         <tr>
@@ -25,12 +25,46 @@
             <td><?= h($commLink->loc_code) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Type') ?></th>
+            <td><?= h($commLink->type) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Properties') ?></th>
-            <td><?= h($commLink->properties) ?></td>
+            <td><dl>
+<?php foreach (\Cake\Core\Configure::read('JsonCommLink.'.$commLink->type,[]) as $attr): ?>
+	<dt><?=$attr?></dt>
+	<dd><?=$commLink->__get($attr)?></dd>
+<?php endforeach; ?>
+            </dl></td>
         </tr>
     </table>
     <div class="row">
         <h4><?= __('Remark') ?></h4>
         <?= $this->Text->autoParagraph(h($commLink->remark)); ?>
+    </div>
+    <div class="row">
+        <h4><?= __('Failures') ?></h4>
+    <table cellpadding="0" cellspacing="0">
+        <thead>
+            <tr>
+                <th scope="col"><?= __('id') ?></th>
+                <th scope="col"><?= __('fail_start') ?></th>
+                <th scope="col"><?= __('Duration in minutes') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+<?php foreach ($commLink->failures as $failure): ?>
+			<tr>
+				<td><?= $this->Html->link($failure->id, [
+					'controller'=>'Failures',
+					'action'=>'view',
+					$failure->id
+						]) ?></td>
+				<td><?= $failure->fail_start ?></td>
+				<td><?= $failure->getDuration() ?></td>
+            </tr>
+<?php endforeach; ?>
+        </tbody>
+	</table>
     </div>
 </div>

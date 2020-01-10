@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use App\Lib\Common;
 use Cake\Core\Configure;
 use Cake\Utility\Xml;
 /**
@@ -24,18 +23,31 @@ class CommLinksController extends AppController
         $commLinks = $this->paginate($this->CommLinks);
         //debug($this->request);
         $uplinks = $this->getLinkNames("uplinks");
-        $this->set(compact('commLinks', 'uplinks'));
+        $nodes = $this->getLinkNames("nodes");
+        $this->set(compact('commLinks', 'uplinks', 'nodes'));
     }
     
     private function getLinkNames($type) {
         $map = [];
     	$xml = Xml::build(ROOT . DS . 'TandSData.xml');
-    	foreach ($xml as $tr) {
-    		$col4 = (Xml::toArray($tr->td[3]))['td'];
-    		if (is_string($col4)) {
-    			$str = trim($col4);
-    			$map[$str] = urlencode($str);
+    	if ($type == "uplinks") {
+    		foreach ($xml as $tr) {
+				$col4 = (Xml::toArray($tr->td[3]))['td'];
+				if (is_string($col4)) {
+					$str = trim($col4);
+					$map[$str] = urlencode($str);
+				}
     		}
+    	}
+    	if ($type == "nodes") {
+    		foreach ($xml as $tr) {
+				$col2 = (Xml::toArray($tr->td[1]))['td'];
+				if (is_string($col2)) {
+					$str = trim($col2);
+					if (substr($str, 0, 2) == 'PW')
+						$map[$str] = urlencode($str);
+				}
+    		} 
     	}
     	return $map;
     }
@@ -50,9 +62,8 @@ class CommLinksController extends AppController
     public function view($id = null)
     {
         $commLink = $this->CommLinks->get($id, [
-            'contain' => []
+            'contain' => ['Failures']
         ]);
-
         $this->set('commLink', $commLink);
     }
 
@@ -69,7 +80,7 @@ class CommLinksController extends AppController
         $commLink = $this->CommLinks->newEntity();
         $commLink->name = $name;
         $commLink->type = $this->request->query('type');
-        $commLink->remark = 'N/A';
+        $commLink->remark = '';
         $attributes = Configure::read('JsonCommLink.'.$commLink->type, []);
         foreach (Configure::read('JsonCommLink', []) as $k => $v)
         	$types[$k] = $k;
@@ -98,8 +109,9 @@ class CommLinksController extends AppController
         $commLink = $this->CommLinks->get($id, [
             'contain' => []
         ]);
-        $commLink->name = $id;
-        $commLink->populateAttr();
+        debug($commLink->name);
+        //$commLink->name = $id;
+        //$commLink->populateAttr();
         $attributes = Configure::read('JsonCommLink.'.$commLink->type, []);
         foreach (Configure::read('JsonCommLink', []) as $k => $v)
         	$types[$k] = $k;

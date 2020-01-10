@@ -57,5 +57,6 @@ use Cake\Core\Configure;
     </div>
     <footer>
     </footer>
+    <?= $this->fetch('scriptBottom') ?>
 </body>
 </html>

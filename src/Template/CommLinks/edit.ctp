@@ -21,14 +21,14 @@
     <fieldset>
         <legend><?= __('Edit Comm Link') ?></legend>
         <?php
-            echo $this->Form->control('name', ['readonly'=>true]);
+            echo $this->Form->control('name', ['readonly'=>true, 'value'=>$commLink->id]);
             echo $this->Form->control('type', [
             		'type'=>'select',
             		'multiple'=>false,
             		'options'=>$types]);
             echo $this->Form->control('loc_code');
             foreach ($attributes as $attr) {
-            	echo $this->Form->control($attr);
+            	echo $this->Form->control($attr, ['value'=>$commLink->__get($attr)]);
             }
             echo $this->Form->control('remark');
         ?>
@@ -36,36 +36,17 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
-<script>
-	$("#loc-code").autocomplete({
-		source: function (request, response) {
-			$.ajax({
-				url: "<?= \Cake\Core\Configure::read('WebService.locations') ?>"+"?limit=20&name_filter="+
-					request.term,
-				type: "GET",
-				headers: {
-					"Accept": "application/json"
-				}
-			}).done(function (data) {
-				response($.map(eval(data.suggestions), function (item) {
-					return {
-						label: item.name,
-						value: item.code,
-						region: item.region
-					};
-				}));
-			});
-		},
-		/*[
-			{label: 'Tuen Mun WTW', value: 'TW003'},
-			{label: 'Tuen Mun FWPS', value: 'PS103'}
-			],*/
-		select: function(event, ui) {
-			$("#loc-code").val(ui.item.value);
-			$("#attr-location").val(ui.item.label);
-			$("#remark").val($("#remark").val() + ui.item.region);
-			return false;
-		},
-		minLength: 1
-	});
-</script>
+<?php
+	$this->Html->scriptStart(['block'=>'scriptBottom']);
+	echo $this->element('autocomplete_script', [
+		'service'=>\Cake\Core\Configure::read('WebService.locations'),
+		'code'=>'#loc-code', 'name'=>'#attr-location',
+		'remark'=>'#remark'
+		]);
+	if (in_array('attr_loc_code_up', $attributes))
+		echo $this->element('autocomplete_script', [
+		'service'=>\Cake\Core\Configure::read('WebService.locations'),
+		'code'=>'#attr-loc-code-up', 'name'=>'#attr-location-up',
+		'remark'=>'#remark'
+		]);
+	$this->Html->scriptEnd();

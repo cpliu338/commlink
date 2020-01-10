@@ -30,14 +30,29 @@ class CommLink extends Entity
         'name' => true // this is not an actual column
     ];
     
-    /**
+    /*
     * Set attribute fields for html form control using JSON column properties
     * the attribute fields start with attr_
-    */
     public function populateAttr() {
     	foreach ($this->properties as $attr=>$val) {
 			$this->set('attr_'.$attr, ($this->properties)[$attr]);
     	}    	
+    }
+    */
+    
+    /**
+    * Override magic get method for 
+    * the attribute fields start with attr_
+    */
+    public function &__get($property) {
+    	if (substr($property, 0, 5)=='attr_') {
+    		$prop = substr($property, 5);
+    		return ($this->properties)[$prop];
+    	}
+    	else if ($property == 'name' && empty($this->name)) {
+    		return $this->id;
+    	}
+    	return $this->get($property);
     }
     
 }

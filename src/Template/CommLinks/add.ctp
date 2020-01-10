@@ -31,3 +31,18 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
+<?php
+	$this->Html->scriptStart(['block'=>'scriptBottom']);
+	echo $this->element('autocomplete_script', [
+		'service'=>\Cake\Core\Configure::read('WebService.locations'),
+		'code'=>'#loc-code', 'name'=>'#attr-location',
+		'remark'=>'#remark'
+		]);
+	if (in_array('attr_loc_code_up', $attributes))
+		echo $this->element('autocomplete_script', [
+		'service'=>\Cake\Core\Configure::read('WebService.locations'),
+		'code'=>'#attr-loc-code-up', 'name'=>'#attr-location-up',
+		'remark'=>'#remark'
+		]);
+	$this->Html->scriptEnd();
+?>

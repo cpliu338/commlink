@@ -51,7 +51,7 @@ return [
         'namespace' => 'App',
         'encoding' => env('APP_ENCODING', 'UTF-8'),
         'defaultLocale' => env('APP_DEFAULT_LOCALE', 'en_US'),
-        'defaultTimezone' => env('APP_DEFAULT_TIMEZONE', 'UTC'),
+        'defaultTimezone' => env('APP_DEFAULT_TIMEZONE', 'Asia/Hong_Kong'),
         'base' => false,
         'dir' => 'src',
         'webroot' => 'webroot',
@@ -392,8 +392,8 @@ return [
         'defaults' => 'php',
     ],
     'JsonCommLink' => [
-    	'broadband' =>  ['attr_location','attr_service'],
-    	'leased_line' => [],
+    	'broadband' =>  ['attr_location','attr_service', 'attr_ip_addr'],
+    	'leased_line' => ['attr_location','attr_loc_code_up','attr_location_up'],
     	'3G' => [],
 	],
     

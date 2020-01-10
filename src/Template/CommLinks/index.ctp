@@ -8,11 +8,8 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Comm Link'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Failures'), ['controller'=>'Failures', 'action' => 'index']) ?></li>
     </ul>
-</nav>
-<div class="commLinks index large-9 medium-8 columns content">
-    <h3><?= __('Comm Links') ?></h3>
-    <form id="add-uplink" method="get" accept-charset="utf-8" action="/comm-links/add">
     <fieldset style="display:inline; margin:0; padding:0">
     	<label for="uplinks">Uplink</label>
     	<select id="uplinks">
@@ -20,9 +17,18 @@
 	<option value="<?= $value?>"/><?=$key?></option>
 <?php endforeach; ?>
 		</select>
-		<button style="display:inline; padding:0" id="add">Add</button>
+		<button id="add-uplink">Add Uplink</button>
+    	<label for="nodes">Nodes</label>
+    	<select id="nodes">
+<?php foreach($nodes as $key=>$value): ?>
+	<option value="<?= $value?>"/><?=$key?></option>
+<?php endforeach; ?>
+		</select>
+		<button id="add-node">Add Node</button>
 	</fieldset>
-	</form>
+</nav>
+<div class="commLinks index large-9 medium-8 columns content">
+    <h3><?= __('Comm Links') ?></h3>
 <!-- $this->Html->link($key, ['action'=>'add', '?'=>['name'=>$key]]) -->
     
     <table cellpadding="0" cellspacing="0">
@@ -45,7 +51,7 @@
                 <td><?= is_array($commLink->properties) ?
                 	Cake\Utility\Text::truncate(json_encode($commLink->properties, 20)) : $commLink->properties
                 ?></td>
-                <td><?= Cake\Utility\Text::truncate($commLink->remark, 20) ?></td>
+                <td><?= nl2br(Cake\Utility\Text::truncate($commLink->remark, 20)) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $commLink->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $commLink->id]) ?>
@@ -68,9 +74,9 @@
 </div>
 <script>
 	$(function() {
-		$("#add").button({icons: {primary: "ui-icon-plus"}});
+		$("#add-uplink").button({icons: {primary: "ui-icon-plus"}});
 	});
-	$("#add-uplink").submit(function() {
+	$("#add-uplink").click(function() {
 		var addpage = "<?= Cake\Routing\Router::url([
 			'action'=>'add'])?>";
 		var map = {'type':'broadband'};
@@ -79,6 +85,14 @@
 		alert($.param(map));
 		*/
 		window.location = addpage + '?' + $.param(map);
-		return false;
+		//return false;
+	});
+	$("#add-node").click(function() {
+		var addpage = "<?= Cake\Routing\Router::url([
+			'action'=>'add'])?>";
+		var map = {'type':'leased_line'};
+		map.name = $("#nodes option:selected").val();
+		window.location = addpage + '?' + $.param(map);
+		//return false;
 	});
 </script>
