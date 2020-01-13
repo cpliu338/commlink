@@ -8,7 +8,7 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Comm Link'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Failures'), ['controller'=>'Failures', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('List Rtus'), ['controller'=>'Rtus', 'action' => 'index']) ?></li>
     </ul>
     <fieldset style="display:inline; margin:0; padding:0">
     	<label for="uplinks">Uplink</label>

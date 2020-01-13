@@ -396,6 +396,9 @@ return [
     	'leased_line' => ['attr_location','attr_loc_code_up','attr_location_up'],
     	'3G' => [],
 	],
+    'JsonRtu' => [
+    	'generic' =>  ['attr_location'],
+	],
     
     'WebService' => [
     	'locations' =>"http://localhost:8765/commLinks/mimicLocationService",

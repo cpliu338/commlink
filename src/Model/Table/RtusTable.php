@@ -9,22 +9,24 @@ use Cake\Event\Event;
 use ArrayObject;
 
 /**
- * CommLinks Model
+ * Rtus Model
  *
- * @method \App\Model\Entity\CommLink get($primaryKey, $options = [])
- * @method \App\Model\Entity\CommLink newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\CommLink[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\CommLink|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\CommLink saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\CommLink patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\CommLink[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\CommLink findOrCreate($search, callable $callback = null, $options = [])
+ * @property \App\Model\Table\CommLinksTable&\Cake\ORM\Association\BelongsToMany $CommLinks
+ *
+ * @method \App\Model\Entity\Rtus get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Rtus newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Rtus[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Rtus|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rtus saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Rtus patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Rtus[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Rtus findOrCreate($search, callable $callback = null, $options = [])
  */
-class CommLinksTable extends Table
+class RtusTable extends Table
 {
 	/**
-	* Called before HTTP form data is marshalled to form an Entity object
-	* recreate the JSON array 'properties'
+	* Refactor this
+	* into a behanvior?
 	*/
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
 	{
@@ -63,13 +65,13 @@ class CommLinksTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('comm_links');
+        $this->setTable('rtus');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-        //$this->hasMany('Failures')->setForeignKey('link_id');
-        $this->belongsToMany('Rtus', [
-            'foreignKey' => 'link_id',
-            'targetForeignKey' => 'rtus_id',
+
+        $this->belongsToMany('CommLinks', [
+            'foreignKey' => 'rtu_id',
+            'targetForeignKey' => 'link_id',
             'joinTable' => 'rtus_comm_links',
         ]);
     }
@@ -83,9 +85,13 @@ class CommLinksTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->scalar('id')
-            ->maxLength('id', 255)
+            ->integer('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->scalar('path')
+            ->maxLength('path', 64)
+            ->allowEmptyString('path');
 
         $validator
             ->scalar('loc_code')
@@ -93,18 +99,12 @@ class CommLinksTable extends Table
             ->allowEmptyString('loc_code');
 
         $validator
-            ->requirePresence('type', 'create')
-            ->notEmptyString('type')
-            ->maxLength('type', 32);
+            ->scalar('type')
+            ->maxLength('type', 64)
+            ->allowEmptyString('type');
 
         $validator
-            ->requirePresence('properties', 'create')
-            ->notEmptyString('properties');
-
-        $validator
-            ->scalar('remark');
-            //->requirePresence('remark', 'create');
-            //->notEmptyString('remark');
+            ->allowEmptyString('properties');
 
         return $validator;
     }
