@@ -389,7 +389,7 @@ return [
      * To use database sessions, load the SQL file located at config/schema/sessions.sql
      */
     'Session' => [
-        'defaults' => 'php',
+        'defaults' => 'cake',
     ],
     'JsonCommLink' => [
     	'broadband' =>  ['attr_location','attr_service', 'attr_ip_addr'],

@@ -7,9 +7,8 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Rtus'), ['action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Rtu'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Comm Links'), ['controller' => 'CommLinks', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Comm Link'), ['controller' => 'CommLinks', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="rtus index large-9 medium-8 columns content">

@@ -32,8 +32,10 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Properties') ?></th>
-            <td><?= h($rtus->properties) ?></td>
-        </tr>
+            <td><?= is_array($rtus->properties) ?
+                	Cake\Utility\Text::truncate(json_encode($rtus->properties, 20)) : $rtus->properties
+			?></td>
+		</tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($rtus->id) ?></td>
@@ -47,19 +49,18 @@
                 <th scope="col"><?= __('Id') ?></th>
                 <th scope="col"><?= __('Loc Code') ?></th>
                 <th scope="col"><?= __('Properties') ?></th>
-                <th scope="col"><?= __('Remark') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
-            <?php foreach ($rtus->comm_links as $commLinks): ?>
+            <?php foreach ($rtus->comm_links as $commLink): ?>
             <tr>
-                <td><?= h($commLinks->id) ?></td>
-                <td><?= h($commLinks->loc_code) ?></td>
-                <td><?= h($commLinks->properties) ?></td>
-                <td><?= h($commLinks->remark) ?></td>
+                <td><?= h($commLink->id) ?></td>
+                <td><?= h($commLink->loc_code) ?></td>
+                <td><?= is_array($commLink->properties) ?
+                	Cake\Utility\Text::truncate(json_encode($commLink->properties, 20)) : $commLink->properties
+				?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'CommLinks', 'action' => 'view', $commLinks->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'CommLinks', 'action' => 'edit', $commLinks->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'CommLinks', 'action' => 'delete', $commLinks->id], ['confirm' => __('Are you sure you want to delete # {0}?', $commLinks->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['controller' => 'CommLinks', 'action' => 'view', $commLink->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['controller' => 'CommLinks', 'action' => 'edit', $commLink->id]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

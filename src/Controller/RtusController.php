@@ -21,7 +21,6 @@ class RtusController extends AppController
     public function index()
     {
         $rtus = $this->paginate($this->Rtus);
-
         $this->set(compact('rtus'));
     }
 
