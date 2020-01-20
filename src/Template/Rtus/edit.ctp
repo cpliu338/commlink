@@ -26,10 +26,21 @@
             echo $this->Form->control('path');
             echo $this->Form->control('loc_code');
             echo $this->Form->control('type');
-            echo $this->Form->control('properties');
+            foreach ($attributes as $attr) {
+            	echo $this->Form->control($attr, ['value'=>$rtus->__get($attr)]);
+            }
             echo $this->Form->control('comm_links._ids', ['options' => $commLinks]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
+<?php
+	$this->Html->scriptStart(['block'=>'scriptBottom']);
+	echo $this->element('autocomplete_script', [
+		'service'=>\Cake\Core\Configure::read('WebService.locations'),
+		'code'=>'#loc-code', 'name'=>'#attr-location',
+		'remark'=>'#remark'
+		]);
+	$this->Html->scriptEnd();
+?>

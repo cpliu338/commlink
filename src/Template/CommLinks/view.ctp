@@ -43,25 +43,27 @@
         <?= $this->Text->autoParagraph(h($commLink->remark)); ?>
     </div>
     <div class="row">
-        <h4><?= __('Failures') ?></h4>
+        <h4><?= __('Connected Rtus') ?></h4>
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
                 <th scope="col"><?= __('id') ?></th>
-                <th scope="col"><?= __('fail_start') ?></th>
-                <th scope="col"><?= __('Duration in minutes') ?></th>
+                <th scope="col"><?= __('type') ?></th>
+                <th scope="col"><?= __('properties') ?></th>
             </tr>
         </thead>
         <tbody>
-<?php foreach ($commLink->failures as $failure): ?>
+<?php foreach ($commLink->rtus as $rtu): ?>
 			<tr>
-				<td><?= $this->Html->link($failure->id, [
-					'controller'=>'Failures',
+				<td><?= $this->Html->link($rtu->id, [
+					'controller'=>'Rtus',
 					'action'=>'view',
-					$failure->id
+					$rtu->id
 						]) ?></td>
-				<td><?= $failure->fail_start ?></td>
-				<td><?= $failure->getDuration() ?></td>
+				<td><?= $rtu->type ?></td>
+                <td><?= is_array($rtu->properties) ?
+                	Cake\Utility\Text::truncate(json_encode($rtu->properties, 20)) : $rtu->properties
+                ?></td>
             </tr>
 <?php endforeach; ?>
         </tbody>

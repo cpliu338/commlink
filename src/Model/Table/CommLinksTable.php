@@ -69,7 +69,7 @@ class CommLinksTable extends Table
         //$this->hasMany('Failures')->setForeignKey('link_id');
         $this->belongsToMany('Rtus', [
             'foreignKey' => 'link_id',
-            'targetForeignKey' => 'rtus_id',
+            'targetForeignKey' => 'rtu_id',
             'joinTable' => 'rtus_comm_links',
         ]);
     }

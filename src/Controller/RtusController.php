@@ -48,7 +48,7 @@ class RtusController extends AppController
     public function add()
     {
         $rtu = $this->Rtus->newEntity();
-        $attributes = Configure::read('JsonRtu.generic', []);
+        $this->populate_attr_fields();
         if ($this->request->is('post')) {
             $rtu = $this->Rtus->patchEntity($rtu, $this->request->getData());
             if ($this->Rtus->save($rtu)) {
@@ -59,7 +59,11 @@ class RtusController extends AppController
             $this->Flash->error(__('The rtu could not be saved. Please, try again.'));
         }
         $commLinks = $this->Rtus->CommLinks->find('list', ['limit' => 200]);
-        $this->set(compact('rtu', 'commLinks', 'attributes'));
+        $this->set(compact('rtu', 'commLinks'));
+    }
+    
+    private function populate_attr_fields() {
+        $this->set('attributes', Configure::read('JsonRtu.generic', []));
     }
 
     /**
@@ -74,6 +78,7 @@ class RtusController extends AppController
         $rtus = $this->Rtus->get($id, [
             'contain' => ['CommLinks'],
         ]);
+        $this->populate_attr_fields();
         if ($this->request->is(['patch', 'post', 'put'])) {
             $rtus = $this->Rtus->patchEntity($rtus, $this->request->getData());
             if ($this->Rtus->save($rtus)) {

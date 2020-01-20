@@ -62,7 +62,7 @@ class CommLinksController extends AppController
     public function view($id = null)
     {
         $commLink = $this->CommLinks->get($id, [
-            'contain' => ['Failures']
+            'contain' => ['Rtus']
         ]);
         $this->set('commLink', $commLink);
     }
@@ -109,7 +109,7 @@ class CommLinksController extends AppController
         $commLink = $this->CommLinks->get($id, [
             'contain' => []
         ]);
-        debug($commLink->name);
+        //debug($commLink->name);
         //$commLink->name = $id;
         //$commLink->populateAttr();
         $attributes = Configure::read('JsonCommLink.'.$commLink->type, []);
