@@ -74,12 +74,12 @@ class CommLinksController extends AppController
      */
     public function add()
     {
-    	$name = $this->request->query('name');
+    	$name = $this->request->getQuery('name');
     	if ($this->CommLinks->exists(['id'=>$name]))
     		return $this->redirect(['action'=>'edit', $name]);
         $commLink = $this->CommLinks->newEntity();
         $commLink->name = $name;
-        $commLink->type = $this->request->query('type');
+        $commLink->type = $this->request->getQuery('type');
         $commLink->remark = '';
         $attributes = Configure::read('JsonCommLink.'.$commLink->type, []);
         foreach (Configure::read('JsonCommLink', []) as $k => $v)
