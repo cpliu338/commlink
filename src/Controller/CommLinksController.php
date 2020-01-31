@@ -21,10 +21,23 @@ class CommLinksController extends AppController
     public function index()
     {
         $commLinks = $this->paginate($this->CommLinks);
-        //debug($this->request);
         $uplinks = $this->getLinkNames("uplinks");
         $nodes = $this->getLinkNames("nodes");
         $this->set(compact('commLinks', 'uplinks', 'nodes'));
+    }
+    
+    /** Suggest links for a select menu
+    param by request parameters
+    */
+    public function suggest() {
+    	$req = $this->getRequest();
+    	if ($req->is('ajax')) {
+    		$attr = $req->getQuery('attribute');
+    		$value = $req->getQuery('value');
+    		$results = $this->CommLinks->find()->where([$attr=>$value])->toArray();
+    		$this->set(compact('results'));
+    		$this->set('_serialize', 'results');
+    	}
     }
     
     private function getLinkNames($type) {

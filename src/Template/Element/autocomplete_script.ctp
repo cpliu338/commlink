@@ -20,7 +20,8 @@
 		select: function(event, ui) {
 			$("<?= $code?>").val(ui.item.value);
 			$("<?= $name?>").val(ui.item.label);
-			$("<?=$remark?>").val(ui.item.region + "\n" + $("<?=$remark?>").val());
+			<?= $callback?>;
+			console.log(ui.item);
 			return false;
 		},
 		minLength: 1

@@ -35,7 +35,20 @@
 	echo $this->element('autocomplete_script', [
 		'service'=>\Cake\Core\Configure::read('WebService.locations'),
 		'code'=>'#loc-code', 'name'=>'#attr-location',
-		'remark'=>'#remark'
+		'callback'=> 
+		'$.ajax({
+			dataType: "json",
+			url: "/comm-links/suggest?attribute=loc_code&value="+
+			encodeURIComponent(ui.item.value)
+		}).done(function(data){
+			$("#comm-links-ids").find("option").remove();
+			$.each(data, function(index,value){
+				$("#comm-links-ids").append(\'<option value="\'+
+				value.id+\'">\'+ value.id+\'</option>\'
+				);
+			});
+			data.forEach(elem => console.log(elem.id));
+		})'
 		]);
 	$this->Html->scriptEnd();
 ?>

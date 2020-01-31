@@ -36,13 +36,15 @@
 	echo $this->element('autocomplete_script', [
 		'service'=>\Cake\Core\Configure::read('WebService.locations'),
 		'code'=>'#loc-code', 'name'=>'#attr-location',
-		'remark'=>'#remark'
+		'callback'=>
+'$("#remark").val(ui.item.region + "\n" + $("#remark").val())'
 		]);
 	if (in_array('attr_loc_code_up', $attributes))
 		echo $this->element('autocomplete_script', [
 		'service'=>\Cake\Core\Configure::read('WebService.locations'),
 		'code'=>'#attr-loc-code-up', 'name'=>'#attr-location-up',
-		'remark'=>'#remark'
+		'callback'=>
+'$("#remark").val(ui.item.region + "\n" + $("#remark").val())'
 		]);
 	$this->Html->scriptEnd();
 ?>

@@ -49,8 +49,9 @@ class CommLinksTable extends Table
 	*/
     public function beforeSave(Event $event) {
     	$entity = $event->getData('entity');
-    	if (empty($entity->id) && !empty($entity->name))
+    	if (empty($entity->id) && !empty($entity->name)) {
 			$entity->id = $entity->name;
+		}
 	}	
 	
     /**

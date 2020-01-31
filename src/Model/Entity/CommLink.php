@@ -49,7 +49,7 @@ class CommLink extends Entity
     		$prop = substr($property, 5);
     		return ($this->properties)[$prop];
     	}
-    	else if ($property == 'name' && empty($this->name)) {
+    	else if ($property == 'name' && empty($this->get($property))) {
     		return $this->id;
     	}
     	return $this->get($property);
