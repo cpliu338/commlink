@@ -24,10 +24,10 @@ use ArrayObject;
  */
 class RtusTable extends Table
 {
-	/**
+	/* *
 	* Refactor this
 	* into a behanvior?
-	*/
+	* /
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
 	{
 		$properties = [];
@@ -48,13 +48,13 @@ class RtusTable extends Table
 	/**
 	* Called before saving to database
 	* propety name copied to id
-	*/
+	* /
     public function beforeSave(Event $event) {
     	$entity = $event->getData('entity');
     	if (empty($entity->id) && !empty($entity->name))
 			$entity->id = $entity->name;
 	}	
-	
+	*/
     /**
      * Initialize method
      *
@@ -68,6 +68,7 @@ class RtusTable extends Table
         $this->setTable('rtus');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+        $this->addBehavior('JsonProperties');
 
         $this->belongsToMany('CommLinks', [
             'foreignKey' => 'rtu_id',

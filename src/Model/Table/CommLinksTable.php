@@ -22,10 +22,10 @@ use ArrayObject;
  */
 class CommLinksTable extends Table
 {
-	/**
+	/* *
 	* Called before HTTP form data is marshalled to form an Entity object
 	* recreate the JSON array 'properties'
-	*/
+	* /
 	public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
 	{
 		$properties = [];
@@ -43,17 +43,17 @@ class CommLinksTable extends Table
     	$data['properties'] = $properties;
     }
     
-	/**
+	/* *
 	* Called before saving to database
 	* propety name copied to id
-	*/
+	* /
     public function beforeSave(Event $event) {
     	$entity = $event->getData('entity');
     	if (empty($entity->id) && !empty($entity->name)) {
 			$entity->id = $entity->name;
 		}
 	}	
-	
+	*/
     /**
      * Initialize method
      *
@@ -67,7 +67,8 @@ class CommLinksTable extends Table
         $this->setTable('comm_links');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
-        //$this->hasMany('Failures')->setForeignKey('link_id');
+        $this->addBehavior('JsonProperties');
+        
         $this->belongsToMany('Rtus', [
             'foreignKey' => 'link_id',
             'targetForeignKey' => 'rtu_id',

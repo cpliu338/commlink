@@ -14,7 +14,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\CommLink[] $comm_links
  */
-class Rtu extends Entity
+class Rtus extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -32,4 +32,15 @@ class Rtu extends Entity
         'properties' => true,
         'comm_links' => true,
     ];
+    /**
+    * Override magic get method for 
+    * the attribute fields start with attr_
+    */
+    public function &__get($property) {
+    	if (substr($property, 0, 5)=='attr_') {
+    		$prop = substr($property, 5);
+    		return ($this->properties)[$prop];
+    	}
+    	return $this->get($property);
+    }
 }
