@@ -21,8 +21,24 @@ class CommLinksController extends AppController
     public function index()
     {
         $commLinks = $this->paginate($this->CommLinks);
-        $uplinks = $this->getLinkNames("uplinks");
-        $nodes = $this->getLinkNames("nodes");
+        $broadbands = $this->CommLinks->find('list')
+			->where(['type'=>'broadband'])->toArray();
+		$uplinks = [];
+		$ar = $this->getLinkNames("uplinks");
+		ksort($ar);
+        foreach ($ar as $key=>$encoded) {
+        	if (!array_key_exists($key, $broadbands))
+        		$uplinks[$key] = $encoded;
+        }
+        $privatewires = $this->CommLinks->find('list')
+			->where(['type'=>'leased_line'])->toArray();
+        $nodes = [];
+		$ar = $this->getLinkNames("nodes");
+		ksort($ar);
+        foreach ($ar as $key=>$encoded) {
+        	if (!array_key_exists($key, $privatewires))
+        		$nodes[$key] = $encoded;
+        }
         $this->set(compact('commLinks', 'uplinks', 'nodes'));
     }
     
