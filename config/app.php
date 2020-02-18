@@ -397,7 +397,7 @@ return [
     	'3G' => [],
 	],
     'JsonRtu' => [
-    	'generic' =>  ['attr_location'],
+    	'generic' =>  ['attr_location', 'attr_ip_addr'],
 	],
     
     'WebService' => [
