@@ -20,8 +20,24 @@ class RtusController extends AppController
      */
     public function index()
     {
-        $rtus = $this->paginate($this->Rtus);
-        $this->set(compact('rtus'));
+    	$column = $this->request->getQuery('column');
+    	$value = $this->request->getQuery('value');
+    	if ($column=='path') {
+    		$rtus = $this->paginate($this->Rtus->find()->where([
+				'path LIKE'=>"%".$value."%"
+			]));
+    	}
+    	else if ($column=='properties') {
+    		$v = "%$value%"; // when passed to find()->where() CakePHP automatically makes it lower case
+    		$query = $this->Rtus->find()->where([
+				"json_search(LOWER(properties), 'one', '$v') IS NOT "=>null
+			]);
+    	//debug($query);
+    		$rtus = $this->paginate($query);
+    	}
+    	else
+	        $rtus = $this->paginate($this->Rtus);
+        $this->set(compact('rtus', 'column', 'value'));
     }
 
     /**

@@ -5,31 +5,55 @@
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
+<div id="accordion">
+	<h3>Actions</h3>
+	<div>
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Comm Link'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Rtus'), ['controller'=>'Rtus', 'action' => 'index']) ?></li>
     </ul>
+	</div>
+	<h3>Insert</h3>
+	<div>
     <fieldset style="display:inline; margin:0; padding:0">
     	<label for="uplinks">Uplink</label>
     	<select id="uplinks">
-<?php foreach($uplinks as $key=>$value): ?>
-	<option value="<?= $value?>"/><?=$key?></option>
+<?php foreach($uplinks as $key=>$v): ?>
+	<option value="<?= $v?>"/><?=$key?></option>
 <?php endforeach; ?>
 		</select>
 		<button id="add-uplink">Add Uplink</button>
     	<label for="nodes">Nodes</label>
     	<select id="nodes">
-<?php foreach($nodes as $key=>$value): ?>
-	<option value="<?= $value?>"/><?=$key?></option>
+<?php foreach($nodes as $key=>$v): ?>
+	<option value="<?= $v?>"/><?=$key?></option>
 <?php endforeach; ?>
 		</select>
 		<button id="add-node">Add Node</button>
 	</fieldset>
+	</div>
+	<h3>Filter</h3>
+	<div>
+    <form method="get">
+    <label for="column">Column</label>
+    <select name="column" id="column">
+	    <option value="">-- choose one --</option>
+    	<option value="id">Id</option>
+    	<option value="type">Type</option>
+    	<option value="properties">Properties</option>
+    </select>
+    <label for="value">Value</label>
+    <input type="text" name="value" id="value" value="<?=$value?>"/>
+    </fieldset>
+    <button id="filter">Filter</button>
+    <button id="reset" style="background-color: black">Reset</button>
+    </form>
+	</div>
+</div>
 </nav>
 <div class="commLinks index large-9 medium-8 columns content">
     <h3><?= __('Comm Links') ?></h3>
-<!-- $this->Html->link($key, ['action'=>'add', '?'=>['name'=>$key]]) -->
     
     <table cellpadding="0" cellspacing="0">
         <thead>
@@ -75,6 +99,12 @@
 <script>
 	$(function() {
 		$("#add-uplink").button({icons: {primary: "ui-icon-plus"}});
+		$("#column").val("<?=$column?>");
+		$("#reset").click(function() {
+			$("#value").val("");
+			$("#column").val("");
+		});
+		$("#accordion").accordion();
 	});
 	$("#add-uplink").click(function() {
 		var addpage = "<?= Cake\Routing\Router::url([

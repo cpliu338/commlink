@@ -10,6 +10,21 @@
         <li><?= $this->Html->link(__('New Rtu'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List Comm Links'), ['controller' => 'CommLinks', 'action' => 'index']) ?></li>
     </ul>
+    <form method="get">
+    <fieldset>
+        <legend><?= __('Filter') ?></legend>
+    <label for="column">Column</label>
+    <select name="column" id="column">
+	    <option value="">-- choose one --</option>
+    	<option value="path">Path</option>
+    	<option value="properties">Properties</option>
+    </select>
+    <label for="value">Value</label>
+    <input type="text" name="value" id="value" value="<?=$value?>"/>
+    </fieldset>
+    <button id="filter">Filter</button>
+    <button id="reset" style="background-color: black">Reset</button>
+    </form>
 </nav>
 <div class="rtus index large-9 medium-8 columns content">
     <h3><?= __('Rtus') ?></h3>
@@ -54,3 +69,12 @@
         <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>
+<script>
+$(function(){
+	$("#column").val("<?=$column?>");
+	$("#reset").click(function() {
+		$("#value").val("");
+		$("#column").val("");
+	});
+});
+</script>

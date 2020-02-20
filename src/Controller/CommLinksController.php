@@ -20,7 +20,27 @@ class CommLinksController extends AppController
      */
     public function index()
     {
-        $commLinks = $this->paginate($this->CommLinks);
+    	$column = $this->request->getQuery('column');
+    	$value = $this->request->getQuery('value');
+    	if ($column=='id') {
+    		$commLinks = $this->paginate($this->CommLinks->find()->where([
+				'id LIKE'=>"%".$value."%"
+			]));
+    	}
+    	else if ($column=='type') {
+    		$commLinks = $this->paginate($this->CommLinks->find()->where([
+				'type LIKE'=>"%".$value."%"
+			]));
+    	}
+    	else if ($column=='properties') {
+    		$v = "%$value%"; // when passed to find()->where() CakePHP automatically makes it lower case
+    		$query = $this->CommLinks->find()->where([
+				"json_search(LOWER(properties), 'one', '$v') IS NOT "=>null
+			]);
+    		$commLinks = $this->paginate($query);
+    	}
+    	else
+	        $commLinks = $this->paginate($this->CommLinks);
         $broadbands = $this->CommLinks->find('list')
 			->where(['type'=>'broadband'])->toArray();
 		$uplinks = [];
@@ -39,7 +59,7 @@ class CommLinksController extends AppController
         	if (!array_key_exists($key, $privatewires))
         		$nodes[$key] = $encoded;
         }
-        $this->set(compact('commLinks', 'uplinks', 'nodes'));
+        $this->set(compact('commLinks', 'uplinks', 'nodes', 'column', 'value'));
     }
     
     /** Suggest links for a select menu
